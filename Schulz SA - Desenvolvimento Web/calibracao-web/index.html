@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Certificados de calibração</title>
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+  <header class="topo">
+    <div class="container">
+      <h1>Certificados de calibração</h1>
+      <p>Envie a planilha de ensaio e receba o parecer calculado.</p>
+    </div>
+  </header>
+
+  <main class="container">
+    <section class="envio" aria-labelledby="titulo-envio">
+      <h2 id="titulo-envio">Planilha de ensaio</h2>
+
+      <label class="dropzone" id="dropzone" for="arquivo">
+        <span class="dropzone__titulo">Arraste o arquivo .xlsx aqui ou clique para escolher</span>
+        <span class="dropzone__dica">Colunas: Ponto, Valor_Padrao, LEA, Leitura_1 até Leitura_n</span>
+      </label>
+      <input class="visualmente-oculto" type="file" id="arquivo" accept=".xlsx">
+
+      <p class="envio__exemplos">
+        Sem planilha? Baixe um exemplo
+        <a href="exemplos/planilha_aprovada.xlsx" download>aprovado</a> ou
+        <a href="exemplos/planilha_reprovada.xlsx" download>reprovado</a>.
+      </p>
+    </section>
+
+    <div id="alerta" class="alerta" role="alert" hidden></div>
+    <section id="resultado" class="resultado" aria-live="polite" hidden></section>
+
+    <section id="emissao" class="envio" aria-labelledby="titulo-emissao" hidden>
+      <h2 id="titulo-emissao">AV4 - Registrar certificado para consulta por QR Code</h2>
+      <p class="nota">Demonstração acadêmica. Use somente dados fictícios. Para emitir, cada ponto deve conter de 3 a 30 leituras.</p>
+      <form id="form-emissao" class="form-emissao">
+        <label>TAG do instrumento <input id="tag-instrumento" required maxlength="65" placeholder="MAN-001"></label>
+        <label>Técnico responsável <input id="tecnico" required maxlength="100" placeholder="Equipe de metrologia"></label>
+        <label>Chave de emissão <input id="chave-emissao" required type="password" autocomplete="off" placeholder="Chave configurada no deploy"></label>
+        <button class="botao" type="submit">Registrar e gerar QR Code</button>
+      </form>
+      <p id="emissao-status" role="status" class="nota"></p>
+      <div id="emissao-links" hidden></div>
+    </section>
+  </main>
+
+  <script src="js/erros.js"></script>
+  <script src="js/calculos.js"></script>
+  <script src="js/leitor-xlsx.js"></script>
+  <script src="js/leitor-planilha.js"></script>
+  <script src="js/interface.js"></script>
+  <script src="js/emissao.js"></script>
+  <script src="js/main.js"></script>
+</body>
+</html>

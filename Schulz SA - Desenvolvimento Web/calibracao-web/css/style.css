@@ -1,0 +1,220 @@
+/* ===== Tokens ===== */
+:root {
+  --tinta: #14212b;
+  --aco: #52636f;
+  --fundo: #edf0f2;
+  --superficie: #ffffff;
+  --linha: #d3dae0;
+  --acento: #0e5f7a;
+  --ok: #1b7a4b;
+  --ok-fundo: #e2f2e9;
+  --falha: #b3261e;
+  --falha-fundo: #fbe7e5;
+
+  --raio: 8px;
+  --espaco: 16px;
+  --fonte: "Segoe UI", system-ui, -apple-system, Roboto, "Helvetica Neue", Arial, sans-serif;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --tinta: #e6edf2;
+    --aco: #9fb0bc;
+    --fundo: #0f161c;
+    --superficie: #17212a;
+    --linha: #2b3945;
+    --acento: #5cb6d6;
+    --ok: #6fd49b;
+    --ok-fundo: #12301f;
+    --falha: #ff9a93;
+    --falha-fundo: #3b1a18;
+  }
+}
+
+/* ===== Base ===== */
+*, *::before, *::after { box-sizing: border-box; }
+
+body {
+  margin: 0;
+  background: var(--fundo);
+  color: var(--tinta);
+  font: 16px/1.5 var(--fonte);
+}
+
+h1, h2, h3, p { margin: 0; }
+h2 { font-size: 1.1rem; }
+h3 { font-size: 1rem; margin-top: calc(var(--espaco) * 1.5); }
+
+a { color: var(--acento); }
+:focus-visible { outline: 3px solid var(--acento); outline-offset: 2px; }
+
+.container {
+  width: min(1000px, 100% - 2 * var(--espaco));
+  margin-inline: auto;
+}
+
+.visualmente-oculto {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  clip-path: inset(50%);
+}
+
+/* ===== Topo ===== */
+.topo {
+  background: #0e3b4d;
+  color: #fff;
+  padding-block: 20px;
+}
+.topo h1 { font-size: 1.4rem; }
+.topo p { margin-top: 2px; opacity: 0.85; }
+
+main {
+  display: grid;
+  gap: var(--espaco);
+  padding-block: 24px 48px;
+}
+
+/* ===== Envio ===== */
+.envio {
+  background: var(--superficie);
+  border: 1px solid var(--linha);
+  border-radius: var(--raio);
+  padding: 20px;
+}
+
+.dropzone {
+  display: grid;
+  gap: 4px;
+  margin-top: 12px;
+  padding: 28px 16px;
+  border: 2px dashed var(--linha);
+  border-radius: var(--raio);
+  text-align: center;
+  cursor: pointer;
+  transition: border-color 0.15s, background-color 0.15s;
+}
+.dropzone:hover,
+.dropzone--ativa { border-color: var(--acento); background: var(--fundo); }
+.dropzone__titulo { font-weight: 600; }
+.dropzone__dica { color: var(--aco); font-size: 0.9rem; }
+.envio:has(#arquivo:focus-visible) .dropzone { outline: 3px solid var(--acento); outline-offset: 2px; }
+.envio__exemplos { margin-top: 12px; color: var(--aco); font-size: 0.9rem; }
+
+/* ===== Alerta ===== */
+.alerta {
+  padding: 12px 16px;
+  border: 1px solid var(--falha);
+  border-radius: var(--raio);
+  background: var(--falha-fundo);
+  color: var(--falha);
+}
+.alerta[hidden], .resultado[hidden] { display: none; }
+
+/* ===== Resultado ===== */
+.resultado {
+  background: var(--superficie);
+  border: 1px solid var(--linha);
+  border-radius: var(--raio);
+  padding: 20px;
+}
+
+.parecer {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  gap: var(--espaco);
+  padding: 18px 20px;
+  border-radius: var(--raio);
+  border-left: 8px solid currentColor;
+}
+.parecer--aprovado { background: var(--ok-fundo); color: var(--ok); }
+.parecer--reprovado { background: var(--falha-fundo); color: var(--falha); }
+.parecer__rotulo { font-size: 0.9rem; }
+.parecer__valor { font-size: 2rem; line-height: 1.2; letter-spacing: 0.02em; }
+.parecer__meta { display: grid; gap: 2px; justify-items: end; font-size: 0.9rem; color: var(--tinta); }
+
+.botao {
+  margin-top: 8px;
+  padding: 8px 16px;
+  border: 1px solid var(--acento);
+  border-radius: var(--raio);
+  background: transparent;
+  color: var(--acento);
+  font: inherit;
+  cursor: pointer;
+}
+.botao:hover { background: var(--acento); color: var(--superficie); }
+
+.resumo {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+  gap: 12px;
+  margin: var(--espaco) 0 0;
+}
+.resumo__item { padding: 10px 14px; border: 1px solid var(--linha); border-radius: var(--raio); }
+.resumo dt { color: var(--aco); font-size: 0.9rem; }
+.resumo dd { margin: 0; font-size: 1.4rem; font-weight: 600; font-variant-numeric: tabular-nums; }
+
+/* ===== Tabela ===== */
+.tabela-rolagem { overflow-x: auto; margin-top: 8px; }
+table { width: 100%; min-width: 760px; border-collapse: collapse; }
+th, td { padding: 10px; border-bottom: 1px solid var(--linha); text-align: left; white-space: nowrap; }
+thead th { color: var(--aco); font-size: 0.85rem; font-weight: 600; }
+tbody th { font-weight: 600; }
+td.numero { text-align: right; font-variant-numeric: tabular-nums; }
+thead th:nth-child(n + 2):nth-child(-n + 5) { text-align: right; }
+.linha-falha { background: var(--falha-fundo); }
+
+.selo {
+  display: inline-block;
+  padding: 2px 10px;
+  border-radius: 999px;
+  font-size: 0.85rem;
+  font-weight: 600;
+}
+.selo--ok { background: var(--ok-fundo); color: var(--ok); }
+.selo--falha { background: var(--falha); color: var(--superficie); }
+
+/* Faixa de tolerância (escala ±1,5 × LEA): zona verde = ±LEA, traço = erro zero, marca = erro do ponto */
+.faixa { position: relative; width: 170px; height: 14px; border-radius: 7px; background: var(--linha); }
+.faixa__zona {
+  position: absolute; inset-block: 0; left: 16.67%; width: 66.66%;
+  background: var(--ok-fundo); outline: 1px solid var(--ok);
+}
+.faixa__zero { position: absolute; inset-block: -3px; left: 50%; width: 1px; background: var(--aco); }
+.faixa__marca {
+  position: absolute; top: 50%; width: 12px; height: 12px;
+  border: 2px solid var(--superficie); border-radius: 50%;
+  transform: translate(-50%, -50%);
+}
+.faixa__marca--ok { background: var(--ok); }
+.faixa__marca--falha { background: var(--falha); }
+
+.nota { margin-top: var(--espaco); color: var(--aco); font-size: 0.9rem; max-width: 75ch; }
+
+/* ===== Responsivo ===== */
+@media (max-width: 600px) {
+  .parecer__meta { justify-items: start; }
+  .parecer__valor { font-size: 1.6rem; }
+}
+
+/* ===== Impressão: só o certificado ===== */
+@media print {
+  body { background: #fff; color: #000; }
+  .topo, .envio, .alerta, .botao { display: none; }
+  .resultado { border: 0; padding: 0; }
+  .tabela-rolagem { overflow: visible; }
+}
+
+/* AV4: emissão e QR Code */
+.form-emissao { display:grid; grid-template-columns:repeat(auto-fit,minmax(190px,1fr)); gap:12px; margin-top:16px; align-items:end; }
+.form-emissao label { display:grid; gap:5px; font-weight:600; font-size:.9rem; }
+.form-emissao input { padding:10px; border:1px solid var(--linha); border-radius:var(--raio); font:inherit; width:100%; }
+.form-emissao .botao { margin:0; }
+.imagem-qr { display:block; width:180px; max-width:100%; margin:10px 0; background:#fff; padding:8px; }
+#emissao[hidden], #emissao-links[hidden] { display:none; }
+#dados-certificado p { margin:8px 0; overflow-wrap:anywhere; }
+#dados-certificado table { margin:12px 0; min-width:580px; }
+@media print { #emissao { display:none!important; } }

@@ -1,0 +1,13 @@
+GitHub alvo: https://github.com/Otavio-Mrq/Projeto-Aplicado-III
+
+1. Descompacte o ZIP da AV4.
+2. Se você já tem clone do repositório, abra o terminal na raiz dele.
+3. COPIE O CONTEÚDO do ZIP (não a pasta externa) para a raiz do clone. Mescle a pasta calibracao-web; não apague os arquivos originais.
+4. Execute:
+   git status
+   git add README.md README_AV3_ORIGINAL.md calibracao-web cloud requirements.txt template.yaml tests docs/AV4
+   git commit -m "AV4: certificados PDF e QR Code"
+   git push origin main
+5. Confira a página no GitHub.
+
+AVA: um PDF único com link GitHub + prova do deploy AWS + link do vídeo. O PDF-base está em docs/AV4/RELATORIO_AV4_BASE_PREENCHER.pdf. Não subir ZIP no AVA.

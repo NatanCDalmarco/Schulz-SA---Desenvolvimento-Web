@@ -1,0 +1,61 @@
+AWSTemplateFormatVersion: '2010-09-09'
+Transform: AWS::Serverless-2016-10-31
+Description: 'Projeto Aplicado III AV4 - POC web + validacao QR em Lambda e DynamoDB'
+Parameters:
+  EmissionToken:
+    Type: String
+    NoEcho: true
+    MinLength: 12
+    Description: 'Chave privada de emissao (minimo 12 caracteres). Nao publicar no GitHub.'
+Resources:
+  CertificadosTable:
+    Type: AWS::DynamoDB::Table
+    DeletionPolicy: Delete
+    UpdateReplacePolicy: Delete
+    Properties:
+      BillingMode: PAY_PER_REQUEST
+      AttributeDefinitions:
+        - AttributeName: id
+          AttributeType: S
+      KeySchema:
+        - AttributeName: id
+          KeyType: HASH
+  WebApi:
+    Type: AWS::Serverless::Function
+    Properties:
+      CodeUri: .
+      Handler: cloud.app.lambda_handler
+      Runtime: python3.12
+      MemorySize: 256
+      Timeout: 20
+      ReservedConcurrentExecutions: 2
+      Environment:
+        Variables:
+          TABLE_NAME: !Ref CertificadosTable
+          ISSUE_TOKEN: !Ref EmissionToken
+      Policies:
+        - DynamoDBCrudPolicy:
+            TableName: !Ref CertificadosTable
+  WebFunctionUrl:
+    Type: AWS::Lambda::Url
+    Properties:
+      TargetFunctionArn: !GetAtt WebApi.Arn
+      AuthType: NONE
+  WebPublicInvokeUrl:
+    Type: AWS::Lambda::Permission
+    Properties:
+      FunctionName: !Ref WebApi
+      Action: lambda:InvokeFunctionUrl
+      Principal: '*'
+      FunctionUrlAuthType: NONE
+  WebPublicInvoke:
+    Type: AWS::Lambda::Permission
+    Properties:
+      FunctionName: !Ref WebApi
+      Action: lambda:InvokeFunction
+      Principal: '*'
+      InvokedViaFunctionUrl: true
+Outputs:
+  WebUrl:
+    Description: 'Endereco HTTPS da aplicacao para a demonstracao e QR Code'
+    Value: !GetAtt WebFunctionUrl.FunctionUrl
